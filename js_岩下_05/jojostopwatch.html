@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <script src="js/jquery-2.1.3.min.js"></script>
+    <link rel="stylesheet" href="css/sample.css">
+    <title>ジョジョの奇妙なストップウォッチ</title>
+</head>
+
+
+
+<body>
+
+    <header>
+       
+        <div class="mainvisual">
+            <!-- クリック１回目表示 -->
+            <img  id="theworld" class="theworld" src="img/tokitome.jpg"  alt="">
+            <img  id="roadroller" class="roadroller" src="img/roadroller.png" alt="">
+            <!-- クリック２回目表示 -->
+            <img id="mudamuda" class="mudamuda" src="img/mudamuda.jpg" alt="">
+            <!-- クリック３回目表示 -->
+            <img id="fukidasi" class="fukidasi" src="img/fukidasi1.png" alt="">
+            <img id="stop" class="stop" src="img/stop.png" alt="">
+            <!-- クリック６回目表示 -->
+            <h1 id="PassageArea" class="PassageArea">Count up start!!</h1>
+            <!-- クリック８回目 -->
+            <img id="success" class="success" src="img/tokitome2.png" alt="">
+            <h2 id="successtext" class="successtext">SUCCESS!!</h2>
+            <img id="failure" class="failure" src="img/roadroller2.png" alt="">
+            <h3 id="failuretext" class="failuretext">FAILURE!!</h3>
+            <!-- クリック９回目 -->
+            <img id="oraora" class="oraora" src="img/oraora.jpg" alt="">
+            <img id="dio" class="dio" src="img/dio.png" alt="">
+            <h4 id="lasttext2" class="lasttext2">LOSER!!</h4>
+            <!-- クリック１０回目 -->
+            <img id="jotaro" class="jotaro" src="img/jotaro.png" alt="">
+            <h5 id="lasttext1" class="lasttext1">WINNER!!</h5>
+
+
+        </div>
+
+
+        <!-- ボタン -->
+        <div  class="push">
+            <div id="button"  class="btn btn-border">PUSH!!</div>
+        </div>
+
+        <!-- 音声群 -->
+        <audio preload="auto" id="sound-file" src="voice/theworld.wav"></audio>
+        <audio preload="auto" id="sound-file2" src="voice/roadroller.wav"></audio>
+        <audio preload="auto" id="sound-file3" src="voice/mudamuda.wav"></audio>
+        <audio preload="auto" id="sound-file4" src="voice/oraora.wav"></audio>
+ 
+        
+                
+    </header>
+
+    <main>
+     
+    </main>
+
+    <footer></footer>
+
+
+    <script>
+
+
+var num = 0;
+////1回目のクリック
+$("#button").click(function(){
+    $(this).data("click", ++num);
+    var click = $(this).data("click");
+    console.log(click);
+    if(click == 1){
+      $(this).data("click", true);
+        $( '#sound-file' ).get(0).play() ;
+        $('#theworld').animate({
+        'marginRight': '800px',
+        'height':'200px',
+        'marginTop':'200px'
+        },4000)
+        $('#roadroller').show(4000);     
+    }
+
+    //2回目のクリック
+    if(click == 2){
+        $( '#sound-file2' ).get(0).play() ;
+        $('#roadroller').animate({
+        'left': '1000px',
+        'height':'200px',
+        'marginTop':'200px'
+        },4000); 
+        $('#mudamuda').show(4000);    
+    }
+   
+    //3回目のクリック
+    if(click == 3){
+        $( '#sound-file3' ).get(0).play() ;
+   
+    }
+
+    //  4回目のクリック
+     if(click == 4){
+        $('#stop').show(2000);  
+        $('#fukidasi').show(2000);  
+    }
+
+     //  5回目のクリック
+     if(click == 5){
+        $('#stop').hide(2000);  
+        $('#fukidasi').hide(1000);  
+    }
+
+    //  6回目のクリック
+    if(click == 6){
+        $('#PassageArea').show("fast");  
+    }
+
+    //  7回目のクリック
+      if(click == 7){
+      
+
+        var PassSec;   // 秒数カウント用変数
+       
+    // 繰り返し処理の開始
+    startShowing();
+
+    // 繰り返し処理の中身
+    showPassage();
+   
+}
+ 
+        
+        //  8回目のクリック
+        if(click == 8){
+        // 繰り返し処理の中止
+        stopShowing();
+        }
+
+        
+        //  9回目のクリック
+        if(click == 9){
+        
+        successstory();
+        failurestory();
+        }
+
+        
+        // 10回目のクリック
+        if(click == 10){
+        
+        successstory2();
+        
+        }
+
+});
+
+
+
+// ＜ボタン7回目クリックの処理＞
+// 繰り返し処理の開始
+function startShowing() {
+
+   PassSec = 0;   // カウンタのリセット
+   PassageID = setInterval('showPassage()',100);   // タイマーをセット(1000ms間隔)
+//    document.getElementById("startcount").disabled = true;   // 開始ボタンの無効化
+
+}
+ 
+
+// 繰り返し処理の中身
+
+function showPassage() {
+   PassSec++;   // カウントアップ
+   var msg = "Count up !!⇒ " + PassSec/10 ;   // 表示文作成
+   $("#PassageArea").html(msg)
+
+}
+
+
+
+
+
+// ＜ボタン８回目クリックの処理＞
+// 繰り返し処理の中止
+// ９秒で止めれたら成功ストーリーへ
+// ９秒で止めれなかったら失敗ストーリーへ
+function stopShowing() {
+  clearInterval( PassageID );   // タイマーのクリア
+ 
+ if(PassSec == 90){
+        $('#PassageArea').hide("fast"); 
+        $('#mudamuda').hide("fast");   
+        $('#roadroller').hide("fast");   
+        $('#theworld').hide("fast");  
+        $('#button').animate({
+        'marginTop':'450px'
+        }); 
+        $('#success').show(4000);  
+        $('#successtext').show(4000);  
+        console.log(PassSec);
+   
+        }else{
+        $('#PassageArea').hide("fast"); 
+        $('#mudamuda').hide("fast");   
+        $('#roadroller').hide("fast");   
+        $('#theworld').hide("fast");  
+        $('#button').animate({
+        'marginTop':'450px'
+        }); 
+        $('#failure').show(4000);  
+        $('#failuretext').show(4000);  
+   
+        }
+    
+    }
+   
+// ＜ボタン９回目クリックの処理＞
+// 成功した時のストーリー
+
+function successstory(){
+    if(PassSec == 90){
+       
+        $('#success').hide("fast");  
+        $('#successtext').hide("fast"); 
+        $('#oraora').show("fast"); 
+        $( '#sound-file4' ).get(0).play() ;
+        }}
+
+
+// ＜ボタン９回目クリックの処理＞
+// 失敗した時のストーリー
+
+function failurestory(){
+    if(PassSec != 90){
+       
+        $('#failure').hide("fast");  
+        $('#failuretext').hide("fast");  
+        $('#failuretext').hide("fast");  
+        $('#dio').show("fast");  
+        $('#lasttext2').show("fast");  
+
+   
+        }}
+
+// ＜ボタン１０回目クリックの処理＞
+// 成功した時のストーリー
+
+function successstory2(){
+    if(PassSec == 90){
+        $('#oraora').hide("fast"); 
+        $('#jotaro').show("fast"); 
+        $('#lasttext1').show("fast"); 
+        }}
+
+
+
+    </script>
+
+</body>
+
+</html>
